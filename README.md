@@ -37,7 +37,7 @@ Android 常用的工具类集合,为开发节约时间和成本<br>
  
  ## 工具简介
  > 由于篇幅太大,介绍部分工具的使用.我会在代码中详细的注释如何使用及参数含义,欢迎大家star
- ##### 公共接口BaseInterface
+ #### 公共接口BaseInterface
  ```java
   public interface BaseInterface {
     void afterComplete(); //事件成功后调用
@@ -45,7 +45,7 @@ Android 常用的工具类集合,为开发节约时间和成本<br>
     void afterError(); //事件失败后调用
  }
  ```
- ### 权限工具PermissionUtils
+ ##### 权限工具PermissionUtils
  > 大家都知道android 6.0 之后.都需要用户再一次确认权限.所以为大家封装了权限方法:
  
 
