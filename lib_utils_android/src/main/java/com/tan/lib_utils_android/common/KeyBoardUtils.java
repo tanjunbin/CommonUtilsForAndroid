@@ -67,6 +67,27 @@ public class KeyBoardUtils {
     }
 
     /**
+     * 判断当前软键盘是否打开
+     *
+     * @param activity
+     * @return
+     */
+    public static boolean isSoftInputShow(Activity activity) {
+
+        // 虚拟键盘隐藏 判断view是否为空
+        View view = activity.getWindow().peekDecorView();
+        if (view != null) {
+            // 隐藏虚拟键盘
+            InputMethodManager inputmanger = (InputMethodManager) activity
+                    .getSystemService(Activity.INPUT_METHOD_SERVICE);
+//       inputmanger.hideSoftInputFromWindow(view.getWindowToken(),0);
+
+            return inputmanger.isActive() && activity.getWindow().getCurrentFocus() != null;
+        }
+        return false;
+    }
+
+    /**
      * 打卡软键盘
      *
      * @param mView    输入框
