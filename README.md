@@ -31,7 +31,76 @@ Android 常用的工具类集合,为开发节约时间和成本<br>
 ```
         
  
- ### 工具完整介绍
+ ## 工具简介
+ > 由于篇幅太大,介绍部分工具的使用.我会在代码中详细的注释如何使用及参数含义,欢迎大家star
+ ##### 公共接口BaseInterface
+ ```java
+  public interface BaseInterface {
+    void afterComplete(); //事件成功后调用
+
+    void afterError(); //事件失败后调用
+ }
+ ```
+ ### 权限工具PermissionUtils
+ > 大家都知道android 6.0 之后.都需要用户再一次确认权限.所以为大家封装了权限方法:
+ 
+
+ ```java
+ public interface PermissionCallBack extends BaseInterface{
+ }
+```
+
+```java
+public class PermissionUtils {
+
+    /**
+     * android.support.v4.app.FragmentActivity 申请权限
+     * @param activity
+     * @param callBack
+     * @param permissions
+     */
+    @SuppressLint("CheckResult")
+    public static void request(FragmentActivity activity, final PermissionCallBack callBack, String... permissions){
+        RxPermissions rxPermissions = new RxPermissions(activity);
+        rxPermissions.request(permissions).subscribe(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean aBoolean) throws Exception {
+                if (aBoolean){
+                    //申请的权限全部允许
+                    callBack.afterComplete();
+                }else{
+                    //申请的权限失败
+                    callBack.afterError();
+                }
+            }
+        });
+    }
+
+    /**
+     * android.support.v4.app.Fragment 申请权限
+     * @param fragment
+     * @param callBack
+     * @param permissions
+     */
+    @SuppressLint("CheckResult")
+    public static void request(Fragment fragment, final PermissionCallBack callBack, String... permissions){
+        RxPermissions rxPermissions = new RxPermissions(fragment);
+        rxPermissions.request(permissions).subscribe(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean aBoolean) throws Exception {
+                if (aBoolean){
+                    //申请的权限全部允许
+                    callBack.afterComplete();
+                }else{
+                    //申请的权限失败
+                    callBack.afterError();
+                }
+            }
+        });
+    }
+}
+ 
+ ```
  
 
 
