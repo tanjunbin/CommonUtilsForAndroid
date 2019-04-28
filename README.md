@@ -20,15 +20,25 @@ Android 常用的工具类集合,为开发节约时间和成本<br>
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.8.1'
   ```
 ### 使用
-
-  需要在项目的build.gradle下allprojects->repositories 添加maven:
- 
- ```groovy
-  repositories {
+  1.下载Module :lib_utils_android.<br>
+  2.并导入到自己的项目中.<br>
+  3.需要在项目的build.gradle下allprojects->repositories 添加maven:<br>
+  ```groovy
+   repositories {
         maven { url 'https://jitpack.io' }
         maven { url "https://oss.sonatype.org/content/groups/public" }
-  }
-```
+   }
+  ```
+  4.在app->build.gradle 添加:
+  ```groovy
+  implementation project(':lib_utils_android')
+  ```
+  
+
+
+
+    // utilsAndroid
+    implementation project(':lib_utils_android')
         
  
  ## 工具简介
