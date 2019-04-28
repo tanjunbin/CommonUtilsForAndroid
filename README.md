@@ -33,12 +33,6 @@ Android 常用的工具类集合,为开发节约时间和成本<br>
   ```groovy
   implementation project(':lib_utils_android')
   ```
-  
-
-
-
-    // utilsAndroid
-    implementation project(':lib_utils_android')
         
  
  ## 工具简介
