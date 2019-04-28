@@ -1,5 +1,6 @@
 package com.tan.comm;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,9 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.tan.lib_utils_android.app.AppUtils;
+import com.tan.lib_utils_android.common.ToastUtils;
+import com.tan.lib_utils_android.libinterface.PermissionCallBack;
+import com.tan.lib_utils_android.permission.PermissionUtils;
 
 public class MainActivity extends AppCompatActivity {
     private TextView mTextMessage;
@@ -39,6 +43,18 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         mTextMessage = findViewById(R.id.message);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        PermissionUtils.request(this, new PermissionCallBack() {
+            @Override
+            public void afterComplete() {
+                ToastUtils.show(MainActivity.this,"同意全部权限");
+            }
+
+            @Override
+            public void afterError() {
+                ToastUtils.show(MainActivity.this,"拒绝权限");
+            }
+        }, Manifest.permission.CAMERA,Manifest.permission.READ_EXTERNAL_STORAGE);
     }
 
 }
