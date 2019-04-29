@@ -18,6 +18,8 @@ Android 常用的工具类集合,为开发节约时间和成本<br>
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
     // jackson
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.8.1'
+    // glide
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
   ```
 ### 使用
   1.下载Module :lib_utils_android.<br>
