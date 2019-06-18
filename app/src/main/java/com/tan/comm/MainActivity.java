@@ -18,8 +18,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.tan.comm.application.Application;
 import com.tan.lib_utils_android.app.AppUtils;
 import com.tan.lib_utils_android.common.FileProvider7;
+import com.tan.lib_utils_android.common.ScreenUtils;
 import com.tan.lib_utils_android.common.ToastUtils;
 import com.tan.lib_utils_android.libinterface.PermissionCallBack;
 import com.tan.lib_utils_android.permission.PermissionUtils;
@@ -62,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //测试屏幕适配方法
+        ScreenUtils.setCustomDensity(this, (Application) Application.getApplication());
+
         BottomNavigationView navView = findViewById(R.id.nav_view);
         mTextMessage = findViewById(R.id.message);
         imageView = findViewById(R.id.image_view);
