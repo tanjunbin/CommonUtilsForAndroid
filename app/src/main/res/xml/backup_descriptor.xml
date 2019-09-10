@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <!-- TODO Remove the following "exclude" elements to make them a part of the auto backup -->
+    <exclude
+        domain="database"
+        path="fostha_teacher.db" />
+    <!-- Exclude the shared preferences file that contains the GCM registrationId -->
+    <exclude
+        domain="sharedpref"
+        path="saveInfo.xml" />
+    <exclude
+        domain="sharedpref"
+        path="Cookies_Prefs.xml" />
+    <exclude
+        domain="sharedpref"
+        path="com.eduteacher.xml" />
+</full-backup-content>
