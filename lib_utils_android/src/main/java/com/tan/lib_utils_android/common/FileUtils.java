@@ -2,6 +2,7 @@ package com.tan.lib_utils_android.common;
 
 import android.app.Application;
 import android.content.res.AssetManager;
+import android.os.Environment;
 import android.util.Base64;
 import android.util.Log;
 
@@ -9,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -65,11 +67,12 @@ public class FileUtils {
 
     /**
      * 读取文件，以字符串形式显示
+     *
      * @param file
      * @return
      */
     public static String readFile2String(File file) {
-        if(!file.exists()){
+        if (!file.exists()) {
             return null;
         }
         FileInputStream inputStream = null;
@@ -90,7 +93,7 @@ public class FileUtils {
         } catch (IOException e) {
             e.printStackTrace();
             return null;
-        }finally {
+        } finally {
             try {
                 inputStream.close();
                 byteArrayOutputStream.close();
@@ -106,7 +109,7 @@ public class FileUtils {
      * @param fileName 要读取的文件名
      * @return
      */
-    public static String getAssetsJson(Application  application, String fileName) {
+    public static String getAssetsJson(Application application, String fileName) {
         //将json数据变成字符串
         StringBuilder stringBuilder = new StringBuilder();
         try {
@@ -132,7 +135,7 @@ public class FileUtils {
      * @param readFileNames 要读取的json文件名
      * @return
      */
-    public static ArrayList<String> readZipFile(Application application,String zipName, String... readFileNames) {
+    public static ArrayList<String> readZipFile(Application application, String zipName, String... readFileNames) {
         ArrayList<String> jsonList = new ArrayList<>();
         int count = 0;
         try {
@@ -254,4 +257,111 @@ public class FileUtils {
         out.write(buffer);
         out.close();
     }
+
+
+    /**
+     * 读取sdcard文件
+     *
+     * @param fileName
+     * @return
+     */
+    @SuppressWarnings("resource")
+    public String getInputStream(String fileName) {
+        // 从文件名中获得inputstream
+        // 注意FileInputStream是从相应连路径的文件中读数据 而不是写 注意注意
+        FileInputStream fileInputStream = null;// 获得一个文件输入流对象
+
+        // ByteArrayOutputStream是缓存流 与磁盘无关 不需要关闭
+        ByteArrayOutputStream OutputStream = new ByteArrayOutputStream();
+        // 获得sdcard文件跟目录路径
+        File file = new File(Environment.getExternalStorageDirectory(), fileName);// 创建一个新的文件
+
+        // 是否sdcard卡开启
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+            try {
+                fileInputStream = new FileInputStream(file);// 找到相应文件的路径的输入流
+                int len = 0;
+                byte[] data = new byte[1024];
+
+                // 读取数据到OutputStream中
+                while ((len = fileInputStream.read(data)) != -1) {
+                    OutputStream.write(data, 0, len);
+                }
+
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } finally {
+                if (fileInputStream != null) {
+                    fileInputStream = null;
+                }
+            }
+        }
+        return new String(OutputStream.toByteArray());
+    }
+
+    /**
+     * 写入文件到sdcard中
+     *
+     * @param Filename 文件名
+     * @param content  文件内容
+     * @return
+     */
+    public boolean saveContentToSDCard(String Filename, String content) {
+        boolean flag = false;
+
+        // 注意FileOutputStream是打开特定的文件 在其中<<写>>东西 人不是 顾名思义第去读 也就是参照是软件的内存
+        FileOutputStream outputStream = null;// 获得一个文件输出流
+        // 获得sdcard的根目录
+        // 注意这个file不是文件 而是 一个路径
+        File file = new File(Environment.getExternalStorageDirectory(), Filename);
+        // 判断sdcard是否可用
+        if (Environment.MEDIA_MOUNTED.equals(Environment
+                .getExternalStorageState())) {
+            try {
+                outputStream = new FileOutputStream(file);
+                // 把指定的内容写入相应的文件中
+                outputStream.write(content.getBytes());// 从edittext中获得我输入的字符
+                // 并且放入outputStream中
+                flag = true;
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } finally {
+                // 注意要关闭
+                if (outputStream != null) {
+                    try {
+                        outputStream.close();
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        return flag;
+    }
+
+    /**
+     * 调用方法:
+     * 取---
+     *   FileUtils fileService = new FileUtils(ResetDomainNameActivity.this);
+     *   String msg = fileService.getInputStream("路劲Environment.getExternalStorageDirectory()"+"/文本名.txt");//也可以直接不要路径
+     *
+     * 存---
+     *   //在文件管理器中新建fostha.txt文件
+     *    FileUtils fileService = new FileUtils(content);
+     *    if (!FileUtil.fileIsExists(Environment.getExternalStorageDirectory() + "/" + "文本名.txt")) {
+     *         boolean isSuccess =  fileService.saveContentToSDCard("文本名.txt", ObjectUtils.toString("需要保存的文本"));
+     *         if(isSuccess){
+     *              ToastUtils.showCenter(ResetDomainNameActivity.this,"保存成功");
+     *          }
+     *     }
+     */
 }
